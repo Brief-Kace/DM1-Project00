@@ -1,0 +1,59 @@
+#+TITLE: Special Projects
+#+LANGUAGE: en
+#+OPTIONS: H:4 num:nil toc:nil \n:nil @:t ::t |:t ^:t *:t TeX:t LaTeX:t
+#+OPTIONS: html-postamble:nil
+#+STARTUP: showeverything entitiespretty
+
+NOTE: You must get this approved by Brother Benning.
+
+* Special Project
+-Research Paper
+
+          Hardware Security involving Don’t Cares and State Machines
+
+   One of the things that was investigated was how don’t cares affect hardware 
+security and how they can create problems such as Hardware Trojans with 
+satisfiability don’t cares. Hardware Trojans are a significant security threat 
+due to the globalization of hardware design. The proposed Trojans can pass 
+through formal equivalence checking, they may also reside after logic synthesis 
+optimizations have been processed, and they are resilient to switching 
+probability and side channel analysis. Trojans can create a surface for fault 
+attack to retrieve secret information or downgrade performance by increasing 
+power consumption. One of the things that was also found is that there has been 
+experimental test with the results that show that these Trojans may stay after 
+logic synthesis and that secret information can be retrieved using fault attack. 
+
+   One of the important things is to make sure that the Boolean logic is 
+simplified as much as possible. One of the key things is by reducing non-essential 
+logic gates that are repetitive. This can be done by evaluating the given Boolean 
+equations to find a more simplistic approach to have the same logic by reducing 
+the number of gates it takes to create the desired output.    
+
+ 	To give a greater insight on the condition of these “don’t cares” one can look 
+at its function input under which the output does not matter. They provide 
+flexibility for the optimization of Boolean functions. The possible sources of 
+don’t cares include external don’t cares and satisfiability don’t cares. From 
+further research we found that external don’t cares typically originate from 
+incomplete specification of Boolean functions. One example could be the values 
+assigned to ‘X’ for logic optimization. All in all, the output of the function 
+under an external don’t cares condition, when unspecified, can be leveraged for 
+hardware Trojans making a multiplexing the key to the ciphertext when the lowest 
+key bit is logical 0. This is what can cause a lot of problems if the Boolean 
+function is not set up correctly.
+ 
+   After watching the video in sate machines, there was a need to do further 
+exploration on this topic. One of the things that were found were the importance 
+of what is called input languages inside sate machines. Input languages describe 
+the set of valid inputs an application must handle. It also plays a central role 
+in language-theoretic security, in recognition of the fact that overly complex, 
+sloppily specified, or incorrectly implemented input languages. These are the types 
+of ways states machines are configured. These types of configurations can be the 
+root cause of many security vulnerabilities. Often an input language not only 
+involves a language of individual messages, but also some protocol with a notion of 
+a session. This can be a sequence of messages that makes up a dialogue between two 
+parties.
+ 
+   often session languages are often poorly specified and that errors in 
+implementing them can cause security problems. As a way to correct these errors, 
+an automatically infer formal specifications of protocol state machines can reduce 
+these backwards looping causing a backdoor for other to find their way in.

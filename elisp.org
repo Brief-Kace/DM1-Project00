@@ -1,0 +1,75 @@
+#+TITLE: Elisp Code
+#+LANGUAGE: en
+#+OPTIONS: H:4 num:nil toc:nil \n:nil @:t ::t |:t ^:t *:t TeX:t LaTeX:t
+#+OPTIONS: html-postamble:nil
+#+STARTUP: showeverything entitiespretty
+
+NOTE: Comment your code, and verify it works for "breaking cases" i.e. 0! = 1.
+
+* Factorial Code
+** Code
+#+BEGIN_SRC emacs-lisp
+;;Funcation that will return the factorial of a given number.  
+(defun factorial (n)
+   
+   ;;Check and see if the value is greater than 1
+   ;;If the value is zero, it will return 0
+   (if (< n 1)
+      1
+      ;;Using recursion to turn an IF statement into a loop.
+      (* n (factorial (- n 1)))))
+  
+;;Call the factorial funcation and pass it a value.
+(factorial 2000)
+#+END_SRC
+
+
+
+** Test cases
+   My results:
+   0 =   1             ; Correct.
+   1 =   1             ; Correct.
+   2 =   2             ; Correct.
+   3 =   6             ; Correct.
+   10 =  362880        ; Correct.
+   15 =  1.3707e12...  ; Correct.
+   35 ;  Correct.
+   55 ;  Correct.
+   95 ;  Gave me a 0.
+   65 ;  Gave me a 0.
+   57 ;  Gave me a very large number ; Correct.
+   58 ;  Gave me a very large NEGATIVE number.  
+     
+** How big a number will make your computer freeze?
+
+   Tested:
+   200:  Result was zero.
+   2000: Gave me a lisp sizing error.  
+* "Real-World" function with mapcar
+** What is mapcar
+   Mapcar is a function that performs a given operation on a sequence.  The "operation" is the first 
+   argument in the function, and it applys that operation to every element in the sequence.
+
+** Code
+#+BEGIN_SRC emacs-lisp
+;;Program to apply sales tax to purchases
+(mapcar #'(lambda (n) (* n 1.06)) '( 10 20 30))
+#+END_SRC
+
+#+RESULTS:
+| 10.600000000000001 | 21.200000000000003 | 31.8 |
+
+
+* Loop function
+** Code
+#+BEGIN_SRC emacs-lisp
+(let (
+      (xlist (number-sequence 97 122)) ;; Make a list from 97 to 122
+     )
+  (dolist (n xlist) (insert n)))
+
+#+END_SRC
+
+
+
+

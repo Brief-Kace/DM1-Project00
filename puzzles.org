@@ -1,0 +1,53 @@
+#+TITLE: Puzzles
+#+LANGUAGE: en
+#+OPTIONS: H:4 num:nil toc:nil \n:nil @:t ::t |:t ^:t *:t TeX:t LaTeX:t
+#+OPTIONS: html-postamble:nil
+#+STARTUP: showeverything entitiespretty
+
+No help from me! Or brother Neff! Or any professor!
+Other rando's ... sure.  Other students ... even bettar!
+
+To get full "extra credit" you must fill out all four. 
+Solutions and proofs are different.  Solving a puzzle like the bomb puzzle in a previous lab
+is much different than proving it is impossible if we don't know if the bomb is heavier or lighter
+with only 2 weights!
+
+* Puzzles
+** TODO TEU
+  How many numbers between one and a million contain the digit 1 exactly once,
+  and the sum of the rest of the digits is 16? Write elisp code with and without
+  loops to verify your answer.
+*** Rephrase
+*** Approach
+*** Solution 
+*** Proof
+** DONE TME
+   CLOSED: [2018-05-15 Tue 14:33]
+  Sequences can be non-numeric as well. What is the pattern for this sequence?
+: [m b w y me be wi yo met bew ith you meta bewi thyo uati metap bewit hyoua tirel]
+  How long can it continue?
+*** Rephrase
+   Find the pattern sequence of this non-mumerical sequences.  
+*** Approach
+   This sequence is building the title of the book, Metaphors Be With You: 
+   A Tireless Work On Play On Words. After 4 iterations, it adds a new letter
+   to each item, spelling out the title. 
+*** Solution
+   [metaph bewith youat irele metapho bewithy ouatir elessw] etc... 
+*** Proof
+   Same as the solution.
+** DONE WRA
+   CLOSED: [2018-05-15 Tue 14:53]
+  Why is the sum of the reciprocals of the powers of two scaled by which power
+  equal to two?
+*** Rephrase
+   Think about why the sum of the reciprocals have powers of two and then scaled by which power that are equal to two.
+*** Approach
+   There is an elegent proof that can be found that demonstrates that 1/2 + ... 1/2^n is a convergent series. I could explain it here, 
+   but I fear I would not do it justice, however, I will attempt to put it in my own words. You can find a complete proof here -> https://www.quora.com/How-does-1-2-+-1-4-+-1-8-+-1-16-+-%E2%80%A6-till-infinity-have-a-sum
+*** Solution  
+   We know that because we are dealing with fractions, an infinite sum of smaller and smaller pieces will eventually approach a limit of some number. 
+   We can for all intents and purposes call this limit the sum, as given an infinite amount of iterations, it will would reach it. This is why some infinite series
+   can have finite sums. I encourage you to read the full proof, as it can explain it much better than I can; I am not a mathematician yet.
+*** Proof
+   Same as solution. 

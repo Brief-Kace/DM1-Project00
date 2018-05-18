@@ -1,0 +1,345 @@
+#+TITLE: Exercises
+#+LANGUAGE: en
+#+OPTIONS: H:4 num:nil toc:nil \n:nil @:t ::t |:t ^:t *:t TeX:t LaTeX:t d:(not "HINT")
+#+OPTIONS: html-postamble:nil
+#+STARTUP: showeverything entitiespretty
+#+SETUPFILE: ../theme-bigblow.setup
+
+** DONE WDT
+   CLOSED: [2018-05-15 Tue 11:58]
+  PVP the result of evaluating the following (paying special attention to the
+  more-than-syntactic difference between the \lsquo{}starless\rsquo{} form of =let= and the
+  \lsquo{}star-suffixed\rsquo{} form):
+
+#+BEGIN_SRC emacs-lisp
+  (let ((a 1) (b 2) (c 3)) (+ a b c))
+#+END_SRC
+
+#+RESULTS:
+: 6
+
+#+BEGIN_SRC emacs-lisp
+  (let ((a 1) (b 2) (c 3)) (+ a b c d))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (let ((a 1) (b 2) (c 3)) [+ a b c d])
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (let ((a 1) (b 2) (c 3) (+ 4)) (+ a b c +))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (makunbound 'a)
+  (let ((a 1) (b 2) (c 3) (d (+ a 4))) (+ a b c d))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (let* ((a 1) (b 2) (c 3) (d (+ a 4))) (+ a b c d))
+#+END_SRC
+
+***  Your answer goes here.
+ 
+  Predictions:
+  Problem 1:  This should evaluate fine and the result should be 6.  
+  Problem 2:  I do no think this problem will evalute because d is not defined.
+  Problem 3:  I also think this problem will not evaluate because d is not  defined.
+  Problem 4:  Is it trying to overload the operator?  I do not know how lisp will handle this.
+  Problem 5:  This will fail because let does not process experessions in sequence.
+  Problem 6:  I think this will run and output 11.
+
+  Verify:
+  Problem 1:  This ran and resulted in 6.
+  Problem 2:  This gave an error about a void variable.
+  Problem 3:  This code executed and the result was [+ a b c d]
+  Problem 4:  This code executed and the result was 10.  
+  Problem 5:  This gave another void variable error.  
+  Problem 6:  This code executed and the result was 11.  
+
+  Ponder:
+  1: Worked as I expected.
+  2: Did not like the the unassigned variable d.
+  3: This was a little confusing to me.  There is a difference though between Vectors and 
+     other lists that I don't understand.
+  4: So I am not sure what is going on here, if it finds a "+" that is not the first element, 
+     it is evaluating it as a "4".  It appears that lips reads the first item as a funciton
+     to call and evaluates the second + as was previously defined.  
+  5: This has something to do with the last problem, but I'm not quite sure what is happening.
+  6: This one actually went as I expected.  
+
+** DONE TEJ
+   CLOSED: [2018-05-14 Mon 17:23]
+  A function-as-association between elements of a domain and elements of a
+  codomain, for \ldquo{}small\rdquo domains and codomains, inspired so-called \ldquo{}association
+  lists\rdquo (or alists) and the =assoc= (and associated) functions.
+
+  =(assoc KEY LIST)= returns non-nil if KEY is \ldquo{}equal\rdquo to the first element of
+  an element of LIST. The value is actually the first element of LIST whose
+  first element equals KEY.
+
+  For example, here is a function that uses an alist to look up the RGB values
+  of a given color name:
+
+#+BEGIN_SRC emacs-lisp
+  (defun lookup-rgb (color-name)
+  (rest (assoc-string color-name
+                 '(("red" 255 0 0) ("green" 0 255 0) ("blue" 0 0 255)))))
+
+  (lookup-rgb "green")
+#+END_SRC
+
+#+RESULTS:
+| 0 | 255 | 0 |
+
+#+BEGIN_SRC emacs-lisp :results raw
+  (lookup-rgb "blue")
+#+END_SRC
+
+#+RESULTS:
+(0 0 255)
+
+: (0 0 255)
+
+  What if the color name is not in the alist?
+
+#+BEGIN_SRC emacs-lisp :results raw
+  (lookup-rgb "grue")
+#+END_SRC
+
+#+RESULTS:
+nil
+
+: nil
+
+  There are several variations of =assoc=. Find and give examples of using them.
+
+*** Your answer goes here.
+       examples are shown here https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html.
+** DONE WFK
+   CLOSED: [2018-05-17 Thu 18:15]
+  In the function-as-map context, here is another interpretation:
+
+  A \ldquo{}map\rdquo type (AKA associative array, AKA hashtable) is found in many
+  languages. For example, C++:
+#+BEGIN_SRC C++ :results output
+  #include <iostream>
+  #include <map>
+  using namespace std;
+
+  int main() {
+     map<string, string> mymap;
+
+     mymap["one"] = "red";
+     mymap["two"] = "blue";
+     mymap["three"] = "green";
+
+     for (auto const &ent1 : mymap) {
+        cout << ent1.first << " : " << ent1.second << endl;
+     }
+  }
+#+END_SRC
+
+#+RESULTS:
+
+
+: one : red
+: three : green
+: two : blue
+
+  And python:
+#+BEGIN_SRC python
+  mymap = {}
+
+  mymap["one"] = "red"
+  mymap["two"] = "blue"
+  mymap["three"] = "green"
+
+  if __name__ == "__main__":
+          for key in mymap.keys():
+                  print key + " : " + str(mymap[key])
+#+END_SRC
+
+#+RESULTS:
+
+
+
+
+  And of course elisp:
+#+BEGIN_SRC emacs-lisp :results output
+  (let* ((mymap (make-hash-table :test 'equal)))
+    (puthash "one" "red" mymap)
+    (puthash "two" "blue" mymap)
+    (puthash "three" "green" mymap)
+    (pp (list (gethash "one" mymap)
+              (gethash "two" mymap)
+              (gethash "three" mymap)))
+    (maphash (lambda (key value) (princ (format "%s : %s\n" key value))) mymap))
+#+END_SRC
+
+#+RESULTS:
+: ("red" "blue" "green")
+: one : red
+: two : blue
+: three : green
+
+: ("red" "blue" "green")
+: one : red
+: two : blue
+: three : green
+
+  What happens if you omit the =:test 'equal= parameters to the
+  =make-hash-table= call?
+  
+*** Your answer goes here.
+** DONE TER
+   CLOSED: [2018-05-15 Tue 12:13]
+  This exercise explores /looping/ versus /mapping/.
+
+  What does the =morphify= function defined below do? Think about it, then PVP
+  the result of the call to it that follows.
+
+#+BEGIN_SRC emacs-lisp
+  (defun morphify (fun lst)
+    (loop for item in lst
+          collect (funcall fun item)))
+(morphify (quote downcase) (quote ("THIS" "IS" "TOO" "LOUD")))
+#+END_SRC
+
+#+RESULTS:
+| this | is | too | loud |
+
+  The =morphify= function is essentially a /mapping/ function, which means it
+  takes a passed-in function (=fun=) and a passed-in list (=lst=), and /maps fun
+  over lst/, i.e., the results of calling the function =fun= on each element of
+  the list =lst= are collected into a new list, which is returned.
+
+  This shows one way (iteratively) a /map/ function could be implemented.
+  Another way is /recursively/, as in:
+
+#+BEGIN_SRC emacs-lisp
+  (defun morphifyr (fun lst)
+    (if (null lst)
+        nil
+      (append (list (funcall fun (first lst))) (morphifyr fun (rest lst)))))
+
+(morphifyr 'upcase '("1232142" "asdfasdf" "abcdefg"))
+#+END_SRC
+
+#+RESULTS:
+| 1232142 | ASDFASDF | ABCDEFG |
+
+  Explain how this version of =morphify= works.
+  
+*** Your answer goes here.
+     First this function checks that there was a function passed to it. If not, it returns nil
+Next it starts appending a list. The first element of this list is created by calling the passed function on the
+car. It builds the rest of the list by calling morphify on the cdr. This recursively builds the list items and returns
+a new list, thus keeping it functional!
+
+** DONE TGE
+   CLOSED: [2018-05-15 Tue 12:29]
+  Note the difference if -13 is used instead of 13 below:
+#+BEGIN_SRC emacs-lisp :results silent
+  (defun compute-floor-the-hard-way (dividend divisor)
+    (- (/ dividend (float divisor)) (/ (mod dividend divisor) (float divisor))))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :results raw
+ (defun compute-floor-the-hard-way (dividend divisor)
+  (- (/ dividend (float divisor)) (/ (mod dividend divisor) (float divisor))))
+ 
+(let* ((number (/ 13 4.0))
+         (floor1 (floor number))
+         (floor2 (compute-floor-the-hard-way 13 4.0)))
+    (list number floor1 floor2))
+#+END_SRC
+
+#+RESULTS:
+(3.25 3 3.0)
+
+: (3.25 3 3.0)
+
+  Is the hard way correct?
+  
+*** Your answer goes here.
+     I'm not sure exactly what is meant by 'correct', but the compute-floor-the-hard-way returns a floating point number, not an integer,
+so one could make the argument that it is not correct, as floor should return an integer.    
+
+** DONE THP
+   CLOSED: [2018-05-15 Tue 14:13]
+  Graph the floor and ceiling functions f(x) = \lfloor{}x\rfloor and f(x) = \lceil{}x\rceil for real
+  number values of x in the interval [-5.0 .. 5.0].
+  
+*** Your answer goes here. 
+FLOOR
+                 5
+                    |              *--o
+                    |           *--o
+                    |        *--o
+                    |     *--o 
+                    |  *--o 
+-5   ---------------*--o----------------5
+                 *--o
+              *--o  |
+           *--o     |
+        *--o        |
+     *--o           |
+                   -5
+
+CEILING
+
+                 5
+                    |              o--*
+                    |           o--*
+                    |        o--*
+                    |     o--* 
+                    |  o--* 
+-5   ---------------o--*----------------5
+                 o--*
+              o--*  |
+           o--*     |
+        o--*        |
+     o--*           |
+                   -5
+
+** DONE TIW
+   CLOSED: [2018-05-15 Tue 12:33]
+
+  Define the function \ldquo{}round to nearest integer\rdquo using the floor and ceiling
+  functions, together with the \ldquo{}Iverson bracket\rdquo function. (A number whose
+  fractional part is less than one-half should be rounded down, otherwise up.)
+
+***  Your answer goes here.
+       #+BEGIN_SRC emacs-lisp
+(defun frac-part (number)
+  (- number (floor number)))
+
+(defun round-nearest-int (number)
+   (cond 
+      ((< (frac-part number) .5) (floor number))
+      (t (ceiling number))
+   )
+)   
+
+(round-nearest-int '1.5624) 
+    #+END_SRC
+
+    #+RESULTS:
+    : 2
+
+** DONE TKG
+   CLOSED: [2018-05-15 Tue 12:35]
+  Explore the inverse of =assoc= via the functions =rassoc= and associates.
+
+***  Your answer goes here.
+#+BEGIN_SRC emacs-lisp 
+ (setq values '((x . 100) (y . 200) (z . 50)))
+ (assoc 'y values)
+ (rassoc '100 values)
+ 
+#+END_SRC 
+
+#+RESULTS:
+: (x . 100)
+
